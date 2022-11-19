@@ -11,8 +11,8 @@ data_additional <- read_csv("../../../project/1-data/3-additional_features.csv")
 joined_data <- inner_join(data, data_additional, by = "id")
 
 
-data_full <- data %>%
-  inner_join(data_additional, by = "id")
+# data_full <- data %>%
+#   inner_join(data_additional, by = "id")
 
 
 write_csv(data_full, "../../../project/1-data/train_data.csv")  

@@ -12,7 +12,6 @@ Sukurkite duomenų produktą - analitinę aplikaciją, skirtą banko paskolos į
 * paaiškinti naudotų duomenų tyrybos metodų sąvokas ir teoriją ; 
 * sudaryti duomenų tyrybos modelius realiems didiesiems verslo duomenims tirti.
 
- 
 #### Projekto vertinimo kriterijai 
 
 1. Mokslinės literatūros tinkamumas projekto temai.  
