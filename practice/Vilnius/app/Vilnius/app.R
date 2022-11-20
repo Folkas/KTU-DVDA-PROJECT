@@ -1,49 +1,34 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
+library(tidyverse)
+library(h2o)
 
-# Define UI for application that draws a histogram
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins 
+    titlePanel("Banking app"),
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+          fileInput("file", "Ikelkite faila:")
         ),
-
-        # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot")
+          tableOutput("table")
         )
     )
 )
-
-# Define server logic required to draw a histogram
 server <- function(input, output) {
+  h2o.init()
+  model <- h2o.loadModel("../../4-model/my_model")
+  
+  output$table <- renderTable({
+    req(input$file$datapath)
+    df <- h2o.importFile(input$file$datapath)
+    results <- h2o.predict(model, df)
+    
+    results %>%
+      as_tibble() %>%
+      mutate(id = row_number(), y = p0, result = ifelse(predict == 0, "Gera paskola", "Bloga paskola")) %>%
+      select(id, result, y) %>%
+      head()
+  })
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    })
 }
 
-# Run the application 
 shinyApp(ui = ui, server = server)
