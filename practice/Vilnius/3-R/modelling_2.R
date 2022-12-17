@@ -74,6 +74,13 @@ perf_test_dl <- h2o.performance(dl_model, newdata = test)
 perf_test_dl
 h2o.varimp(model)
 
+
+learn_rate=0.1,
+max_depth=30,
+sample_rate = [0.8, 1.0]
+col_sample_rate= [0.8, 1.0]
+
+
 # gridsearch
 # https://docs.h2o.ai/h2o/latest-stable/h2o-docs/grid-search.html
 
